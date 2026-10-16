@@ -7,11 +7,22 @@ from starlette.requests import Request
 
 EMAIL = "22f3000259@ds.study.iitm.ac.in".strip().lower()
 
+from mcp.server.transport_security import TransportSecuritySettings
+
 mcp = FastMCP(
     "Exam Challenge Server",
     stateless_http=True,
     json_response=True,
     streamable_http_path="/",
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=[
+            "mcp-exam-server-wgqp.onrender.com",
+            "mcp-exam-server-wgqp.onrender.com:*",
+            "localhost:*",
+            "127.0.0.1:*",
+        ],
+    ),
 )
 
 @mcp.tool()
